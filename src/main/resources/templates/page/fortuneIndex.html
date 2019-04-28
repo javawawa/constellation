@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+
+    <link rel="stylesheet" href="/lib/weui.min.css">
+    <link rel="stylesheet" href="/css/jquery-weui.css">
+    <link rel="stylesheet" href="/css/demos.css">
+</head>
+<body ontouchstart>
+
+
+<header class='demos-header'>
+    <h1 class="demos-title">星座运势</h1>
+</header>
+
+<div class="weui-cell weui-cell_select">
+    <div class="weui-cell__bd">
+        <select class="weui-select" id="constellation">
+            <option value="白羊座">白羊座</option>
+            <option value="金牛座">金牛座 </option>
+            <option value="双子座">双子座</option>
+            <option value="巨蟹座">巨蟹座</option>
+            <option value="狮子座">狮子座</option>
+            <option value="处女座">处女座</option>
+            <option value="天秤座">天秤座</option>
+            <option value="天蝎座">天蝎座</option>
+            <option value="射手座">射手座</option>
+            <option value="摩羯座">摩羯座</option>
+            <option value="水瓶座">水瓶座</option>
+            <option value="双鱼座">双鱼座</option>
+        </select>
+    </div>
+</div>
+<div class="weui-cell weui-cell_select weui-cell_select-after">
+    <div class="weui-cell__hd">
+        <label class="weui-label">查看运势</label>
+    </div>
+    <div class="weui-cell__bd">
+        <select class="weui-select" id="fortuneType">
+            <option value="today">今日运势</option>
+            <option value="tomorrow">明日运势</option>
+            <option value="week">周运势</option>
+            <option value="month">月运势</option>
+            <option value="year">年运势</option>
+        </select>
+    </div>
+</div>
+<div class='demos-content-padded'>
+    <a href="javascript:;" class="weui-btn weui-btn_primary" onclick="testFortune()">测试运势</a>
+</div>
+<div id="targetDiv">
+    <div class="weui-form-preview" id="dayDiv" style="display: none;">
+        <div class="weui-form-preview__hd">
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">测试时间</label>
+                <span class="weui-form-preview__value" id="dayTime">2019年02月20日</span>
+            </div>
+        </div>
+        <div class="weui-form-preview__bd">
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">星座</label>
+                <span class="weui-form-preview__value" id="dayName">白羊座</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">速配星座</label>
+                <span class="weui-form-preview__value" id="dayQFriend">射手座</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">综合指数</label>
+                <span class="weui-form-preview__value" id="dayAll">89%</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">健康指数</label>
+                <span class="weui-form-preview__value" id="dayHealth">23%</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">爱情指数</label>
+                <span class="weui-form-preview__value" id="dayLove">23%</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">财运指数</label>
+                <span class="weui-form-preview__value" id="dayMoney">89%</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">工作指数</label>
+                <span class="weui-form-preview__value" id="dayWork">20%</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">幸运色</label>
+                <span class="weui-form-preview__value" id="dayColor">白色</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">幸运数字</label>
+                <span class="weui-form-preview__value" id="dayNumber">6</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">今日概述</label>
+                <span class="weui-form-preview__value" id="daySummary">娱乐活动和工作这两者在今天是需要白羊座想办法平衡的，有机会参与大型聚会，在聚光灯下展现自我，工作事业压力也一直很大，相信白羊座能够做到苦中作乐。</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="weui-form-preview" id="weekDiv" style="display: none;">
+        <div class="weui-form-preview__hd">
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">测试时间</label>
+                <span class="weui-form-preview__value" id="weekTime">2019年02月20日</span>
+            </div>
+        </div>
+        <div class="weui-form-preview__bd">
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">星座</label>
+                <span class="weui-form-preview__value" id="weekName">白羊座</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">健康</label>
+                <span class="weui-form-preview__value" id="weekHealth">射手座</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">求职</label>
+                <span class="weui-form-preview__value" id="weekJob">89%</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">恋情</label>
+                <span class="weui-form-preview__value" id="weekLove">23%</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">财运</label>
+                <span class="weui-form-preview__value" id="weekMoney">89%</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">工作</label>
+                <span class="weui-form-preview__value" id="weekWork">20%</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="weui-form-preview" id="monthDiv" style="display: none;">
+        <div class="weui-form-preview__hd">
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">测试时间</label>
+                <span class="weui-form-preview__value" id="monthTime">2019年02月20日</span>
+            </div>
+        </div>
+        <div class="weui-form-preview__bd">
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">星座</label>
+                <span class="weui-form-preview__value" id="monthName">白羊座</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">综合运势</label>
+                <span class="weui-form-preview__value" id="monthAll">射手座</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">爱情运势</label>
+                <span class="weui-form-preview__value" id="monthLove">89%</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">健康运势</label>
+                <span class="weui-form-preview__value" id="monthHealth">23%</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">财运运势</label>
+                <span class="weui-form-preview__value" id="monthMoney">89%</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">工作运势</label>
+                <span class="weui-form-preview__value" id="monthWork">20%</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="weui-form-preview" id="yearDiv" style="display: none;">
+        <div class="weui-form-preview__hd">
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">测试时间</label>
+                <span class="weui-form-preview__value" id="yearTime">2019年02月20日</span>
+            </div>
+        </div>
+        <div class="weui-form-preview__bd">
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">星座</label>
+                <span class="weui-form-preview__value" id="yearName">白羊座</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">年度密码概述</label>
+                <span class="weui-form-preview__value" id="yearInfo">射手座</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">年度密码说明</label>
+                <span class="weui-form-preview__value" id="yearText">89%</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">事业运</label>
+                <span class="weui-form-preview__value" id="yearCareer">23%</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">感情运</label>
+                <span class="weui-form-preview__value" id="yearLove">89%</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">财运</label>
+                <span class="weui-form-preview__value" id="yearFinance">20%</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">健康运势</label>
+                <span class="weui-form-preview__value" id="yearHealth">20%</span>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="/lib/jquery-2.1.4.js"></script>
+<script src="/lib/fastclick.js"></script>
+<script>
+    $(function() {
+        FastClick.attach(document.body);
+    });
+    function testFortune(){
+        var constellation = $("#constellation").val();
+        var fortuneType = $("#fortuneType").val();
+        var prefix = config.config.urlPrefix;
+        $.ajax({
+            url:prefix+":7777/getFortune",
+            type:"post",
+            data:{constellation:constellation,fortuneType:fortuneType},
+            dataType:"json",
+            success:function(data){
+                if(fortuneType == "today" || fortuneType == "tomorrow"){
+                    $("#dayDiv").css('display', '');
+                    $("#weekDiv").css('display', 'none');
+                    $("#monthDiv").css('display', 'none');
+                    $("#yearDiv").css('display', 'none');
+                    $("#dayName").text(data.name);
+                    $("#dayQFriend").text(data.QFriend);
+                    $("#dayAll").text(data.all);
+                    $("#dayHealth").text(data.health);
+                    $("#dayLove").text(data.love);
+                    $("#dayMoney").text(data.money);
+                    $("#dayNumber").text(data.number);
+                    $("#dayColor").text(data.color);
+                    $("#dayWork").text(data.work);
+                    $("#daySummary").text(data.summary);
+                    $("#dayTime").text(data.datetime);
+                }else if (fortuneType == "week") {
+                    $("#weekDiv").css('display', '');
+                    $("#yearDiv").css('display', 'none');
+                    $("#dayDiv").css('display', 'none');
+                    $("#monthDiv").css('display', 'none');
+                    $("#weekName").text(data.name);
+                    $("#weekJob").text(data.job);
+                    $("#weekHealth").text(data.health);
+                    $("#weekLove").text(data.love);
+                    $("#weekMoney").text(data.money);
+                    $("#weekWork").text(data.work);
+                    $("#weekTime").text(data.datetime);
+                }else if (fortuneType == "month") {
+                    $("#monthDiv").css('display', '');
+                    $("#dayDiv").css('display', 'none');
+                    $("#weekDiv").css('display', 'none');
+                    $("#yearDiv").css('display', 'none');
+                    $("#monthName").text(data.name);
+                    $("#monthAll").text(data.all);
+                    $("#monthHealth").text(data.health);
+                    $("#monthLove").text(data.love);
+                    $("#monthMoney").text(data.money);
+                    $("#monthWork").text(data.work);
+                    $("#monthTime").text(data.date);
+                }else if (fortuneType == "year") {
+                    $("#yearDiv").css('display', '');
+                    $("#dayDiv").css('display', 'none');
+                    $("#monthDiv").css('display', 'none');
+                    $("#weekDiv").css('display', 'none');
+                    $("#yearName").text(data.name);
+                    $("#yearInfo").text(data.mima.info);
+                    $("#yearText").text(data.mima.text);
+                    $("#yearCareer").text(data.career);
+                    $("#yearLove").text(data.love);
+                    $("#yearHealth").text(data.health);
+                    $("#yearFinance").text(data.finance);
+                    $("#yearTime").text(data.date);
+                }
+            }
+        })
+    }
+</script>
+<script src="/js/jquery-weui.js"></script>
+</body>
+<script src="/lib/jquery-2.1.4.js"></script>
+<script src="/lib/fastclick.js"></script>
+<script src="/js/jquery-weui.js"></script>
+<script src="/js/common.js"></script>
+</html>

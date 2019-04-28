@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.">
+    <link rel="stylesheet" href="/lib/weui.min.css">
+    <link rel="stylesheet" href="/css/jquery-weui.css">
+    <link rel="stylesheet" href="/css/demos.css">
+</head>
+<body ontouchstart>
+<header class='demos-header'>
+    <h1 class="demos-title">录入</h1>
+</header>
+<div class="weui-cells__title">内容</div>
+<div class="weui-cells weui-cells_form">
+    <div class="weui-cell">
+        <div class="weui-cell__bd">
+            <textarea class="weui-textarea" placeholder="请输入文本" rows="3" id="content"></textarea>
+        </div>
+    </div>
+</div>
+
+<div class='demos-content-padded'>
+    <a href="javascript:;" class="weui-btn weui-btn_primary" onclick="save()">保存</a>
+</div>
+
+<script src="/lib/jquery-2.1.4.js"></script>
+<script src="/lib/fastclick.js"></script>
+<script>
+    $(function () {
+        FastClick.attach(document.body);
+    });
+
+    function save() {
+        var content = $("#content").val();
+        var prefix = config.config.urlPrefix;
+        console.log("prefix", prefix);
+        $.ajax({
+            url: prefix+":7777/teast/saveGreetings",
+            type: "post",
+            dataType: "json",
+            data: {
+                "content": content
+            },
+            success: function (data) {
+                if(data.flag == true){
+                    $.toast("操作成功", function() {
+                    });
+                }else{
+                    $.toast("操作失败", "cancel", function(toast) {
+                    });
+                }
+            }
+        })
+    }
+</script>
+<script src="/js/jquery-weui.js"></script>
+</body>
+<script src="/lib/jquery-2.1.4.js"></script>
+<script src="/lib/fastclick.js"></script>
+<script src="/js/jquery-weui.js"></script>
+<script src="/js/common.js"></script>
+</html>
