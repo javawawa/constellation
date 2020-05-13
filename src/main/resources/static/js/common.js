@@ -1,8 +1,8 @@
-// var url_prefix = http://www.qbjavawa.top;
+// var url_prefix = http://api.qbjavawa.top;
 var config = (function($){
     $.config = {
         // urlPrefix:'http://localhost'
-        urlPrefix:'http://www.qbjavawa.top'
+        urlPrefix:'http://api.qbjavawa.top'
     }
     return $;
 })(window.config||{});

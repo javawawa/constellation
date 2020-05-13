@@ -18,24 +18,28 @@ public class RequestFortuneUtil {
     public static final String DEF_CHATSET = "UTF-8";
     public static final int DEF_CONN_TIMEOUT = 30000;
     public static final int DEF_READ_TIMEOUT = 30000;
+    public static final String WEATHER_URL = "http://v.juhe.cn/weather/index";
+    public static final String FORTUNE_URL = "http://web.juhe.cn:8080/constellation/getAll";
     public static String userAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.66 Safari/537.36";
 
     /**
      *  AK
      */
-    public static final String APP_KEY = "ccf94783e09b4b415593796641295ff8";
+    public static final String FORTUNE_APP_KEY = "ccf94783e09b4b415593796641295ff8";
+    public static final String WEATHER_APP_KEY = "3e224daac2c8a2b8989e73708bd7e8e4";
 
-    //1.运势查询
+    /**
+     * 运势查询
+     */
     public static String getFortune(String constellation,String fortuneType) {
         String result = null;
-        String url = "http://web.juhe.cn:8080/constellation/getAll";
         Map params = new HashMap();
-        params.put("key", APP_KEY);
+        params.put("key", FORTUNE_APP_KEY);
         params.put("consName", constellation);
         params.put("type", fortuneType);
 
         try {
-            result = net(url, params, "GET");
+            result = net(FORTUNE_URL, params, "GET");
             JSONObject object = JSONObject.fromObject(result);
             if (object.getInt("error_code") == 0) {
                 System.out.println(object.toString());
@@ -48,8 +52,31 @@ public class RequestFortuneUtil {
         return result;
     }
 
+    /**
+     * 获取天气
+     * @param cityname 城市
+     * @return result
+     */
+    public static String getWeather(String cityname) {
+        String result = null;
+        Map params = new HashMap();
+        params.put("key", WEATHER_APP_KEY);
+        params.put("cityname", cityname);
+        try {
+            result = net(WEATHER_URL, params, "GET");
+            JSONObject object = JSONObject.fromObject(result);
+            if (object.getInt("error_code") == 0) {
+                System.out.println(object.toString());
+            } else {
+                System.out.println(object.get("error_code") + ":" + object.get("reason"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
     public static void main(String[] args) {
-        getFortune("","");
+        getWeather("杭州");
     }
 
     /**

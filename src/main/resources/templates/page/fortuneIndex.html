@@ -227,7 +227,7 @@
         var fortuneType = $("#fortuneType").val();
         var prefix = config.config.urlPrefix;
         $.ajax({
-            url:prefix+":7777/getFortune",
+            url:prefix+"/getFortune",
             type:"post",
             data:{constellation:constellation,fortuneType:fortuneType},
             dataType:"json",
