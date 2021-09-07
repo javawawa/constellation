@@ -22,6 +22,7 @@ public class RequestFortuneUtil {
     public static final String WEATHER_URL = "http://apis.juhe.cn/simpleWeather/query";
     public static final String LIFE_INDEX_URL = "http://apis.juhe.cn/simpleWeather/life";
     public static final String FORTUNE_URL = "http://web.juhe.cn:8080/constellation/getAll";
+    public static final String BIRTH_URL = "http://apis.juhe.cn/birthEight/query";
     public static String userAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.66 Safari/537.36";
 
     /**
@@ -29,6 +30,7 @@ public class RequestFortuneUtil {
      */
     public static final String FORTUNE_APP_KEY = "ccf94783e09b4b415593796641295ff8";
     public static final String WEATHER_APP_KEY = "4b540b603614fe840f2e2eec86fa6227";
+    public static final String BIRTH_APP_KEY = "44c4b3b47a6b3737e0c407c9dde4f3dc";
 
     /**
      * 运势查询
@@ -104,8 +106,35 @@ public class RequestFortuneUtil {
         return result;
     }
 
+    /**
+     * 八字查询
+     */
+    public static String getBirth(String year,String month,String day,String hour) {
+        String result = null;
+        Map params = new HashMap();
+        params.put("key", BIRTH_APP_KEY);
+        params.put("year", year);
+        params.put("month", month);
+        params.put("day", day);
+        params.put("hour", hour);
+
+        try {
+            result = net(BIRTH_URL, params, "GET");
+            JSONObject object = JSONObject.fromObject(result);
+            if (object.getInt("error_code") == 0) {
+                System.out.println(object.toString());
+            } else {
+                System.out.println(object.get("error_code") + ":" + object.get("reason"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     public static void main(String[] args) {
-        getLifeIndex("杭州");
+//        getLifeIndex("杭州");
+        getBirth("1993","12","3","11");
     }
 
     /**

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+
+    <link rel="stylesheet" href="/lib/weui.min.css">
+    <link rel="stylesheet" href="/css/jquery-weui.css">
+    <link rel="stylesheet" href="/css/demos.css">
+</head>
+<body ontouchstart>
+
+
+<header class='demos-header'>
+    <h1 class="demos-title">生辰八字</h1>
+</header>
+
+
+<div class="weui-cell weui-cell_select weui-cell_select-after">
+    <div class="weui-cell__hd">
+        <label class="weui-label">出生日期(公历)</label>
+    </div>
+    <div class="weui-cell__bd">
+        <input class="weui_input" type="datetime-local" value="" placeholder="" id="dateInput">
+    </div>
+</div>
+
+<div class='demos-content-padded'>
+    <a href="javascript:;" class="weui-btn weui-btn_primary" onclick="testFortune()">计算</a>
+</div>
+<div id="targetDiv">
+    <div class="weui-form-preview" id="dayDiv" style="display: none;">
+        <div class="weui-form-preview__hd">
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">日期(公历)</label>
+                <span class="weui-form-preview__value" id="dayTime">2019年02月20日</span>
+            </div>
+        </div>
+        <div class="weui-form-preview__bd">
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">干支</label>
+                <span class="weui-form-preview__value" id="dayName">白羊座</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">星座</label>
+                <span class="weui-form-preview__value" id="dayQFriend">射手座</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">属相</label>
+                <span class="weui-form-preview__value" id="dayAll">鸡</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">生辰八字</label>
+                <span class="weui-form-preview__value" id="dayHealth">23%</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">八字属性</label>
+                <span class="weui-form-preview__value" id="dayLove">23%</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">五行</label>
+                <span class="weui-form-preview__value" id="dayMoney">89%</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">缺</label>
+                <span class="weui-form-preview__value" id="dayWork">20%</span>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<script src="/lib/jquery-2.1.4.js"></script>
+<script src="/lib/fastclick.js"></script>
+<script>
+    //http://old.jqweui.com/components#form
+    $(function () {
+        FastClick.attach(document.body);
+    });
+
+    function testFortune() {
+        var dateInput = $("#dateInput").val();
+        var date = new Date(dateInput);
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var day = date.getDate();
+        var hour = date.getHours();
+        var prefix = config.config.urlPrefix;
+        $.ajax({
+            url: prefix + "/getBirth",
+            type: "post",
+            data: {year: year, month: month, day: day, hour: hour},
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                $("#dayDiv").css('display', '');
+                $("#dayTime").text(data.year + "年" + data.ImonthCn + data.IDayCn);
+                $("#dayName").text(data.gzYear + "年" + data.gzMonth + "月" + data.gzDay + "日");
+                $("#dayQFriend").text(data.astro);
+                $("#dayAll").text(data.Animal);
+                $("#dayHealth").text(data.eightAll.eight);
+                $("#dayLove").text(data.eightAll.shu);
+                $("#dayMoney").text(data.fiveAll.five);
+                $("#dayWork").text(data.fiveAll.lose);
+            }
+        })
+    }
+</script>
+<script src="/js/jquery-weui.js"></script>
+</body>
+<script src="/lib/jquery-2.1.4.js"></script>
+<script src="/lib/fastclick.js"></script>
+<script src="/js/jquery-weui.js"></script>
+<script src="/js/common.js"></script>
+</html>
