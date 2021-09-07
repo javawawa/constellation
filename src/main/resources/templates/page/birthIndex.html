@@ -97,15 +97,16 @@
             dataType: "json",
             success: function (data) {
                 console.log(data);
+                let result = data.result;
                 $("#dayDiv").css('display', '');
-                $("#dayTime").text(data.year + "年" + data.ImonthCn + data.IDayCn);
-                $("#dayName").text(data.gzYear + "年" + data.gzMonth + "月" + data.gzDay + "日");
-                $("#dayQFriend").text(data.astro);
-                $("#dayAll").text(data.Animal);
-                $("#dayHealth").text(data.eightAll.eight);
-                $("#dayLove").text(data.eightAll.shu);
-                $("#dayMoney").text(data.fiveAll.five);
-                $("#dayWork").text(data.fiveAll.lose);
+                $("#dayTime").text(result.year + "年" + result.ImonthCn + result.IDayCn);
+                $("#dayName").text(result.gzYear + "年" + result.gzMonth + "月" + result.gzDay + "日");
+                $("#dayQFriend").text(result.astro);
+                $("#dayAll").text(result.Animal);
+                $("#dayHealth").text(result.eightAll.eight);
+                $("#dayLove").text(result.eightAll.shu);
+                $("#dayMoney").text(result.fiveAll.five);
+                $("#dayWork").text(result.fiveAll.lose);
             }
         })
     }
