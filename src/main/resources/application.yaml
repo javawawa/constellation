@@ -32,10 +32,3 @@ spring:
     multipart:
       max-file-size: 1MB
       max-request-size: 3MB
-common:
-  base:
-    package: com.twosmall.constellation
-  aspect:
-    log:
-      ## log aop config
-      express: execution(* com.twosmall.constellation.controller..*.*(..))

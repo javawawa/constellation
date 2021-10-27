@@ -11,8 +11,8 @@ public class CodeGenerator {
     public static void main(String[] args) {
         String url = "jdbc:mysql://www.qbjavawa.top:3306/solo?useSSL=false";
         String username = "root";
-        String password = "root";
-        String[] tables = new String[]{"gerp_teast"};
+        String password = "mysql";
+        String[] tables = new String[]{"gerp_menu"};
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
         String projectDir = "/";
@@ -21,7 +21,7 @@ public class CodeGenerator {
         GlobalConfig gc = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
         gc.setOutputDir(projectPath + projectDir + "/src/main/java");
-        gc.setAuthor("gep");
+        gc.setAuthor("enzo");
         gc.setOpen(false);
         gc.setBaseResultMap(true);// XML ResultMap
         gc.setBaseColumnList(true);// XML columList

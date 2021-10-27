@@ -3,7 +3,9 @@ package com.twosmall.constellation.controller;
 import com.twosmall.constellation.utils.RequestFortuneUtil;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +31,7 @@ public class FortuneController {
      */
     @RequestMapping("getFortune")
     @ResponseBody
+    @CrossOrigin()
     public JSONObject getFortuneByTypeAndName(HttpServletRequest request){
         String constellation = request.getParameter("constellation");
         String fortuneType = request.getParameter("fortuneType");
