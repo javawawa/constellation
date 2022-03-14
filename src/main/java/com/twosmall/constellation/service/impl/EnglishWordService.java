@@ -6,6 +6,7 @@ import com.twosmall.constellation.entity.dao.EnglishWordDao;
 import com.twosmall.constellation.entity.dao.TeastDao;
 import com.twosmall.constellation.mapper.EnglishWordMapper;
 import com.twosmall.constellation.service.IEnglishWordService;
+import com.twosmall.constellation.utils.OssUtil;
 import com.twosmall.constellation.utils.YouDaoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,23 +30,30 @@ public class EnglishWordService extends ServiceImpl<EnglishWordMapper, EnglishWo
     @Autowired
     private EnglishWordMapper englishWordMapper;
 
+    @Autowired
+    private OssUtil ossUtil;
+
     @Override
     public TeastDao generateAudio() {
         QueryWrapper<EnglishWordDao> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like("word", "/");
-//        queryWrapper.isNull("audio_path_en");
+//        queryWrapper.eq("study_status", "0");
+        queryWrapper.isNull("audio_path_en");
         List<EnglishWordDao> englishWords = englishWordMapper.selectList(queryWrapper);
         for (EnglishWordDao englishWord : englishWords) {
             String word = englishWord.getWord();
-            String[] split = word.split("/");
-            word = split[0];
+//            String[] split = word.split("/");
+//            word = split[0];
             System.out.println(word);
-            try {
-                String url = YouDaoUtil.ttsTest(word);
-                englishWordMapper.updateUrl("/mnt/word/" + word + ".mp3", englishWord.getId());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            String path = "d://word/" + word + ".mp3";
+            String url = ossUtil.uploadToOss(path, null);
+            englishWordMapper.updateUrl(url, englishWord.getId());
+//            try {
+//                String path = "d://mp3/" + word + ".mp3";
+//                String url = YouDaoUtil.ttsTest(word);
+//                System.out.println(url);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
         }
         return null;
     }
@@ -62,6 +70,9 @@ public class EnglishWordService extends ServiceImpl<EnglishWordMapper, EnglishWo
 
     @Override
     public EnglishWordDao getOneWord() {
-        return englishWordMapper.queryByRandom();
+        EnglishWordDao englishWordDao = englishWordMapper.queryByRandom();
+        String urlByExpireUrlOrKey = ossUtil.getUrlByExpireUrlOrKey(englishWordDao.getAudioPathEn(), null);
+        englishWordDao.setAudioPathEn(urlByExpireUrlOrKey);
+        return englishWordDao;
     }
 }
