@@ -61,7 +61,7 @@ public class EnglishWordService extends ServiceImpl<EnglishWordMapper, EnglishWo
     }
 
     @Override
-    public TeastDao getOneWord() {
+    public EnglishWordDao getOneWord() {
         return englishWordMapper.queryByRandom();
     }
 }

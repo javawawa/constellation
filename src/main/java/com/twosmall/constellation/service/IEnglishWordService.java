@@ -23,5 +23,5 @@ public interface IEnglishWordService extends IService<EnglishWordDao> {
 
     int addToNote(@NotNull @Valid Integer id);
 
-    TeastDao getOneWord();
+    EnglishWordDao getOneWord();
 }

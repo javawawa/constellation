@@ -1,6 +1,7 @@
 package com.twosmall.constellation.controller;
 
 
+import com.twosmall.constellation.entity.dao.EnglishWordDao;
 import com.twosmall.constellation.entity.dao.TeastDao;
 import com.twosmall.constellation.service.IEnglishWordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class EnglishWordController {
     @RequestMapping("getOneWord")
     @ResponseBody
     @CrossOrigin()
-    public TeastDao getOneWord(){
+    public EnglishWordDao getOneWord(){
         return englishWordService.getOneWord();
     }
 
