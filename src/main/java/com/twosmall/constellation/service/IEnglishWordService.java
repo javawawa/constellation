@@ -1,8 +1,11 @@
 package com.twosmall.constellation.service;
 
+import javax.validation.constraints.NotNull;
 import com.twosmall.constellation.entity.dao.EnglishWordDao;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.twosmall.constellation.entity.dao.TeastDao;
+
+import javax.validation.Valid;
 
 /**
  * <p>
@@ -16,8 +19,9 @@ public interface IEnglishWordService extends IService<EnglishWordDao> {
 
     TeastDao generateAudio();
 
-    TeastDao passTheWord();
+    int passTheWord(@NotNull @Valid Integer id);
 
-    TeastDao addToNote();
+    int addToNote(@NotNull @Valid Integer id);
 
+    TeastDao getOneWord();
 }

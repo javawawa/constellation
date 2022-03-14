@@ -3,12 +3,14 @@ package com.twosmall.constellation.controller;
 
 import com.twosmall.constellation.entity.dao.TeastDao;
 import com.twosmall.constellation.service.IEnglishWordService;
-import com.twosmall.constellation.service.ITeastService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -32,16 +34,22 @@ public class EnglishWordController {
         return englishWordService.generateAudio();
     }
 
+    @RequestMapping("getOneWord")
+    @ResponseBody
+    public TeastDao getOneWord(){
+        return englishWordService.getOneWord();
+    }
+
     @RequestMapping("passTheWord")
     @ResponseBody
-    public TeastDao passTheWord(){
-        return englishWordService.passTheWord();
+    public int passTheWord(@NotNull @Valid @RequestParam(value = "id", required = false) Integer id){
+        return englishWordService.passTheWord(id);
     }
 
     @RequestMapping("addToNote")
     @ResponseBody
-    public TeastDao addToNote(){
-        return englishWordService.addToNote();
+    public int addToNote(@NotNull @Valid @RequestParam(value = "id", required = false) Integer id){
+        return englishWordService.addToNote(id);
     }
 
 }
