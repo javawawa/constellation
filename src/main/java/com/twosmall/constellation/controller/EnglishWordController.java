@@ -5,6 +5,7 @@ import com.twosmall.constellation.entity.dao.TeastDao;
 import com.twosmall.constellation.service.IEnglishWordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,18 +37,21 @@ public class EnglishWordController {
 
     @RequestMapping("getOneWord")
     @ResponseBody
+    @CrossOrigin()
     public TeastDao getOneWord(){
         return englishWordService.getOneWord();
     }
 
     @RequestMapping("passTheWord")
     @ResponseBody
+    @CrossOrigin()
     public int passTheWord(@NotNull @Valid @RequestParam(value = "id", required = false) Integer id){
         return englishWordService.passTheWord(id);
     }
 
     @RequestMapping("addToNote")
     @ResponseBody
+    @CrossOrigin()
     public int addToNote(@NotNull @Valid @RequestParam(value = "id", required = false) Integer id){
         return englishWordService.addToNote(id);
     }
