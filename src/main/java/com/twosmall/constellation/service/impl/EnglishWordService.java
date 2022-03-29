@@ -36,13 +36,13 @@ public class EnglishWordService extends ServiceImpl<EnglishWordMapper, EnglishWo
     @Override
     public TeastDao generateAudio() {
         QueryWrapper<EnglishWordDao> queryWrapper = new QueryWrapper<>();
-//        queryWrapper.eq("study_status", "0");
-        queryWrapper.isNull("audio_path_en");
+        queryWrapper.eq("note_flag", "1");
+//        queryWrapper.isNull("audio_path_en");
         List<EnglishWordDao> englishWords = englishWordMapper.selectList(queryWrapper);
         for (EnglishWordDao englishWord : englishWords) {
             String word = englishWord.getWord();
-//            String[] split = word.split("/");
-//            word = split[0];
+            String[] split = word.split("/");
+            word = split[0];
             System.out.println(word);
             String path = "d://word/" + word + ".mp3";
             String url = ossUtil.uploadToOss(path, null);

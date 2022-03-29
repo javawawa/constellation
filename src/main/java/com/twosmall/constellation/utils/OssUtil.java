@@ -37,8 +37,8 @@ public class OssUtil {
     static {
         BUCK_NAME = "sqwn-face";
         OSS_DOMAIN = "http://oss-cn-hangzhou.aliyuncs.com";
-        ACCESS_KEY = "LTAIRMyJgmFU2NnA";
-        SECRET_KEY = "x6iozkqapZVgE5BsKBeU23eP3xDA1p";
+        ACCESS_KEY = "LTAI5t8Xjh8VWmXVQwD6ef3f";
+        SECRET_KEY = "xJRXO9didHuIH6xrXGsKctLJhZwI74";
     }
     private OSSClient ossClient;
 
