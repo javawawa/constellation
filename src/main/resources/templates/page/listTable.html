@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>座位列表</title>
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+
+    <link rel="stylesheet" href="/lib/weui.min.css">
+    <link rel="stylesheet" href="/css/jquery-weui.css">
+    <link rel="stylesheet" href="/css/demos.css">
+</head>
+<body ontouchstart>
+
+
+<header class='demos-header'>
+    <h1 class="demos-title">座位列表</h1>
+</header>
+<div class="weui-grids">
+    <a href="/system" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="images/icon_nav_icons.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            首页
+        </p>
+    </a>
+    <a href="/listCategory" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="images/icon_nav_cell.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            分类
+        </p>
+    </a>
+    <a href="/listMenu" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="images/icon_nav_tab.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            菜单
+        </p>
+    </a>
+</div>
+<div class="weui-tab">
+    <div class="weui-tab__bd">
+        <div class="bd">
+            <div class="page__bd">
+                <div class="weui-cells__title">餐桌列表 点击可以打开二维码图片</div>
+                <div class="weui-cells" id="insertTarget">
+                </div>
+            </div>
+            <div class='demos-content-padded'>
+                <a href="/addTable" class="weui-btn weui-btn_primary">新增餐桌</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+<script src="/lib/jquery-2.1.4.js"></script>
+<script src="/lib/fastclick.js"></script>
+<script src="/js/swiper.js"></script>
+<script src="/js/jquery-weui.js"></script>
+<script src="/js/common.js"></script>
+<script>
+    $(function () {
+        FastClick.attach(document.body);
+    });
+
+    $(document).ready(function () {
+        initData();
+    });
+
+
+    function initData() {
+        let prefix = config.config.urlPrefix;
+        $.ajax({
+            url: prefix + "/getTableList",
+            type: "post",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                const tableList = data.data;
+                tableList.map((item, index) => {
+                    let cellA = document.createElement("a");
+                    cellA.className = "weui-cell weui-cell_access";
+                    cellA.href = "javascript:";
+                    let cellBd = document.createElement("div");
+                    cellBd.className = "weui-cell__bd";
+                    let p = document.createElement("p");
+                    p.innerHTML = item.tableName;
+                    cellBd.appendChild(p);
+                    cellA.appendChild(cellBd);
+                    let cellFt = document.createElement("div");
+                    cellFt.className = "weui-cell__ft";
+                    cellFt.id = item.id;
+                    let input = document.createElement("input");
+                    input.type = "hidden";
+                    input.className = "onclick_input";
+                    input.value = item.tableCode;
+                    cellFt.appendChild(input);
+                    cellA.append(cellFt);
+                    let insertTarget = document.querySelector("#insertTarget");
+                    insertTarget.appendChild(cellA);
+                });
+            }
+        })
+    }
+
+    $(document).on('click', '.weui-cell_access', function () {
+        var code = $(this).find(".onclick_input").val();
+        console.log(code);
+        var pb = $.photoBrowser({
+            items: [
+                code
+            ],
+
+            onSlideChange: function (index) {
+                console.log(this, index);
+            },
+
+            onOpen: function () {
+                console.log("onOpen", this);
+            },
+            onClose: function () {
+                console.log("onClose", this);
+            }
+        });
+        pb.open();
+    })
+
+
+</script>
+</html>

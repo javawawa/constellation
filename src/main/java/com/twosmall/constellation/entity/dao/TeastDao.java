@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -24,7 +27,6 @@ public class TeastDao implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField(exist = false)
     private Integer id;
 
     /**
@@ -43,7 +45,8 @@ public class TeastDao implements Serializable {
     private Integer status;
 
     @TableField("createTime")
-    private LocalDateTime createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",locale = "zh",timezone = "GMT+8")
+    private Date createTime;
 
 
 }

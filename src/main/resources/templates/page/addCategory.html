@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>分类配置</title>
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+
+    <link rel="stylesheet" href="/lib/weui.min.css">
+    <link rel="stylesheet" href="/css/jquery-weui.css">
+    <link rel="stylesheet" href="/css/demos.css">
+</head>
+<body ontouchstart>
+
+
+<header class='demos-header'>
+    <h1 class="demos-title">分类配置</h1>
+</header>
+
+
+<div class="weui-cells__title">分类</div>
+<div class="weui-cells weui-cells_form">
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">分类名称</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" id="categoryName" placeholder="请输入分类名称" maxlength="3">
+        </div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">排序</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" id="order" type="number" placeholder="请输入0-9">
+        </div>
+    </div>
+</div>
+<div class="weui-cells__tips">分类的展示顺序 0最靠前 9最靠后</div>
+
+
+<div class="weui-btn-area">
+    <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">确定</a>
+</div>
+
+<script src="/lib/jquery-2.1.4.js"></script>
+<script src="/lib/fastclick.js"></script>
+<script src="/js/jquery-weui.js"></script>
+<script>
+    $("#showTooltips").click(function () {
+        const params = Object();
+        let categoryName = $('#categoryName').val();
+        let order = $('#order').val();
+        params.categoryName = categoryName;
+        params.order = order;
+        const json = JSON.stringify(params);
+        let prefix = config.config.urlPrefix;
+        console.log(json);
+        if (order > 9 || order < 0) $.toptip('排序:请输入数字0-9!');
+        if ($.trim(categoryName) === "") {
+            $.toptip('请输入分类名称!');
+        }else{
+            $.ajax({
+                url: prefix + "/addCategoryItem",
+                type: "post",
+                contentType :"application/json",
+                data: json,
+                dataType: "json",
+                success: function (data) {
+                    $.toast("提交成功", function () {
+                        window.location.href="/system";
+                    });
+
+                }
+            })
+        }
+    });
+</script>
+
+</body>
+<script src="/js/common.js"></script>
+</html>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.twosmall.constellation.mapper.OrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.twosmall.constellation.entity.dao.OrderDao">
+    <result column="id" property="id" />
+        <result column="order_number" property="orderNumber" />
+        <result column="table_id" property="tableId" />
+        <result column="total_price" property="totalPrice" />
+        <result column="order_details" property="orderDetails" />
+        <result column="create_people" property="createPeople" />
+        <result column="create_time" property="createTime" />
+        <result column="modify_people" property="modifyPeople" />
+        <result column="modify_time" property="modifyTime" />
+        <result column="deleted" property="deleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        order_number, table_id, total_price, order_details, create_people, create_time, modify_people, modify_time, deleted
+    </sql>
+
+</mapper>

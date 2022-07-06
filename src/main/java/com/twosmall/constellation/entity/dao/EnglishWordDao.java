@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -70,13 +73,15 @@ public class EnglishWordDao implements Serializable {
     private String audioPathAm;
 
     @TableField("create_time")
-    private LocalDateTime createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",locale = "zh",timezone = "GMT+8")
+    private Date createTime;
 
     @TableField("create_people")
     private String createPeople;
 
     @TableField("modify_time")
-    private LocalDateTime modifyTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",locale = "zh",timezone = "GMT+8")
+    private Date modifyTime;
 
     @TableField("modify_people")
     private String modifyPeople;

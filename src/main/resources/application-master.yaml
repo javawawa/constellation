@@ -1,0 +1,45 @@
+server:
+  port: 7777
+  servlet:
+    context-path: /
+
+mybatis-plus:
+  global-config:
+    db-config:
+      table-underline: true
+      table-prefix: gerp_
+  mapper-locations: classpath:/mappers/**/*Mapper.xml
+  configuration:
+    cache-enabled: true
+  type-handlers-package: ${common.base.package}.configs.mybatis.handlers
+
+spring:
+  datasource:
+    url: ${common.mysql.url.master}
+    username: ${common.mysql.user}
+    password: ${common.mysql.password}
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    maxActive: 5
+    initialSize: 1
+    maxWait: 6000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 6000
+    minEvictableIdleTimeMillis: 30000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 3MB
+  thymeleaf:
+    prefix: classpath:/templates/page/
+  mvc:
+    static: path-pattern=/**
+
+order:
+  url: http://www.baidu.com

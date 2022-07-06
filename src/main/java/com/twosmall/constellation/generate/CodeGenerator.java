@@ -11,8 +11,8 @@ public class CodeGenerator {
     public static void main(String[] args) {
         String url = "jdbc:mysql://www.qbjavawa.top:3306/solo?useSSL=false";
         String username = "root";
-        String password = "mysql";
-        String[] tables = new String[]{"gerp_english_word"};
+        String password = "hatZNDpevS!JvQc3n9W#4nrQxhh6FL&X";
+        String[] tables = new String[]{"gerp_order"};
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
         String projectDir = "/";

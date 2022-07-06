@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>分类列表</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+
+    <link rel="stylesheet" href="/lib/weui.min.css">
+    <link rel="stylesheet" href="/css/jquery-weui.css">
+    <link rel="stylesheet" href="/css/demos.css">
+</head>
+<body ontouchstart>
+
+
+<header class='demos-header'>
+    <h1 class="demos-title">分类列表</h1>
+</header>
+<div class="weui-grids">
+    <a href="/system" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="images/icon_nav_icons.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            首页
+        </p>
+    </a>
+    <a href="/listMenu" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="images/icon_nav_tab.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            菜单
+        </p>
+    </a>
+    <a href="/listTable" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="images/icon_nav_button.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            餐桌
+        </p>
+    </a>
+</div>
+<div class="weui-tab">
+    <div class="weui-tab__bd">
+        <div class="bd">
+            <div class="page__bd">
+                <div class="weui-cells__title">菜单分类列表</div>
+                <div class="weui-cells" id="insertTarget">
+
+                </div>
+            </div>
+            <div class='demos-content-padded'>
+                <a href="/addCategory" class="weui-btn weui-btn_primary">新增分类</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+<script src="/lib/jquery-2.1.4.js"></script>
+<script src="/lib/fastclick.js"></script>
+<script>
+
+    $(function () {
+        FastClick.attach(document.body);
+    });
+
+    $(document).ready(function () {
+        initData();
+    });
+
+
+    function deleteOnclick() {
+        $(this).parents('.weui-cell').remove();
+        removeCateGory($(this)[0].id);
+    }
+
+    function closeOnclick() {
+        $(this).parents('.weui-cell').swipeout('close')
+    }
+
+    function initData() {
+        let prefix = config.config.urlPrefix;
+        $.ajax({
+            url: prefix + "/getCategoryList",
+            type: "post",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                // $("#insertTarget")
+                const categoryList = data.data;
+                categoryList.map((item, index) => {
+                    let cellSwiped = document.createElement("div");
+                    cellSwiped.className = "weui-cell weui-cell_swiped";
+
+                    let cellBd = document.createElement("div");
+                    cellBd.className = "weui-cell__bd";
+
+                    let cell = document.createElement("div");
+                    cell.className = "weui-cell";
+
+                    let cellBd2 = document.createElement("div");
+                    cellBd2.className = "weui-cell__bd";
+
+                    let p = document.createElement("p");
+                    p.innerHTML = item.categoryName;
+                    cellBd2.appendChild(p);
+
+                    let cellFtUp = document.createElement("div");
+                    cellFtUp.className = "weui-cell__ft";
+                    cellFtUp.innerHTML = "向左滑动删除";
+
+
+                    cell.appendChild(cellBd2);
+                    cell.append(cellFtUp);
+
+                    cellBd.appendChild(cell);
+
+                    let cellFt = document.createElement("div");
+                    cellFt.className = "weui-cell__ft";
+
+                    let deleteA = document.createElement("a");
+                    deleteA.innerHTML = "删除";
+                    deleteA.className = "weui-swiped-btn weui-swiped-btn_warn delete-swipeout";
+                    deleteA.href = "javascript:";
+                    deleteA.role = "button";
+                    deleteA.id = item.id;
+                    deleteA.onclick = deleteOnclick;
+
+                    cellFt.appendChild(deleteA);
+
+                    let closeA = document.createElement("a");
+                    closeA.innerHTML = "关闭";
+                    closeA.className = "weui-swiped-btn weui-swiped-btn_default close-swipeout";
+                    closeA.href = "javascript:";
+                    closeA.onclick = closeOnclick;
+                    cellFt.append(closeA);
+
+
+                    cellSwiped.appendChild(cellBd);
+                    cellSwiped.append(cellFt);
+
+                    let insertTarget = document.querySelector("#insertTarget");
+                    insertTarget.appendChild(cellSwiped);
+
+                    $('.weui-cell_swiped').swipeout()
+                });
+            }
+        })
+    }
+
+    function removeCateGory(id) {
+        let prefix = config.config.urlPrefix;
+        const params = Object();
+        params.id = id;
+        const json = JSON.stringify(params);
+        $.ajax({
+            url: prefix + "/deleteCategoryItem",
+            type: "post",
+            contentType: "application/json",
+            data: json,
+            dataType: "json",
+            success: function (data) {
+                $.toast("删除成功", function () {
+                });
+
+            }
+        })
+    }
+</script>
+<script src="/js/jquery-weui.js"></script>
+<script src="/js/common.js"></script>
+</html>

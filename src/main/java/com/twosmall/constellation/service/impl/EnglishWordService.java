@@ -36,7 +36,7 @@ public class EnglishWordService extends ServiceImpl<EnglishWordMapper, EnglishWo
     @Override
     public TeastDao generateAudio() {
         QueryWrapper<EnglishWordDao> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("note_flag", "1");
+        queryWrapper.eq("note_flag", "0");
 //        queryWrapper.isNull("audio_path_en");
         List<EnglishWordDao> englishWords = englishWordMapper.selectList(queryWrapper);
         for (EnglishWordDao englishWord : englishWords) {

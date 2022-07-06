@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>餐桌配置</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+
+    <link rel="stylesheet" href="/lib/weui.min.css">
+    <link rel="stylesheet" href="/css/jquery-weui.css">
+    <link rel="stylesheet" href="/css/demos.css">
+</head>
+<body ontouchstart>
+
+
+<header class='demos-header'>
+    <h1 class="demos-title">餐桌配置</h1>
+</header>
+
+
+<div class="weui-cells__title">座位</div>
+<div class="weui-cells weui-cells_form">
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">餐桌名称</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" id="categoryName" placeholder="请输入餐桌名称" >
+        </div>
+    </div>
+</div>
+<div class="weui-cells__tips">保存后生成二维码</div>
+
+
+<div class="weui-btn-area">
+    <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">确定</a>
+</div>
+
+<script src="/lib/jquery-2.1.4.js"></script>
+<script src="/lib/fastclick.js"></script>
+<script src="/js/jquery-weui.js"></script>
+<script>
+    $("#showTooltips").click(function () {
+        const params = Object();
+        let categoryName = $('#categoryName').val();
+        params.categoryName = categoryName;
+        const json = JSON.stringify(params);
+        let prefix = config.config.urlPrefix;
+        if ($.trim(categoryName) === "") {
+            $.toptip('请输入餐桌名称!');
+        }else{
+            $.ajax({
+                url: prefix + "/addTable",
+                type: "post",
+                contentType :"application/json",
+                data: json,
+                dataType: "json",
+                success: function (data) {
+                    $.toast("提交成功", function () {
+                        window.location.href="/system";
+                    });
+
+                }
+            })
+        }
+    });
+</script>
+
+</body>
+<script src="/js/common.js"></script>
+</html>

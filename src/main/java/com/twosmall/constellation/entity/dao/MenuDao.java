@@ -1,13 +1,13 @@
 package com.twosmall.constellation.entity.dao;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.time.LocalDateTime;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -25,14 +25,19 @@ public class MenuDao implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId(value = "id", type = IdType.AUTO)
+    private Integer id;
+
     @TableField("create_time")
-    private LocalDateTime createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "zh", timezone = "GMT+8")
+    private Date createTime;
 
     @TableField("create_people")
     private String createPeople;
 
     @TableField("modify_time")
-    private LocalDateTime modifyTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "zh", timezone = "GMT+8")
+    private Date modifyTime;
 
     @TableField("modify_people")
     private String modifyPeople;
@@ -54,7 +59,13 @@ public class MenuDao implements Serializable {
      * 分类id
      */
     @TableField("classify_id")
-    private Long classifyId;
+    private Integer classifyId;
+
+    /**
+     * 分类名称
+     */
+    @TableField("classify_name")
+    private String classifyName;
 
     /**
      * 价格

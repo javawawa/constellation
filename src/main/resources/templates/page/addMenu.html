@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>新增菜单</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+
+    <link rel="stylesheet" href="/lib/weui.min.css">
+    <link rel="stylesheet" href="/css/jquery-weui.css">
+    <link rel="stylesheet" href="/css/demos.css">
+</head>
+<body ontouchstart>
+
+
+<header class='demos-header'>
+    <h1 class="demos-title">新增菜单</h1>
+</header>
+
+
+<div class="weui-cells__title">菜单</div>
+<div class="weui-cells weui-cells_form">
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">菜单名称</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" id="menuName" placeholder="请输入菜单名称" maxlength="10">
+        </div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">分类</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" id="category" type="text" value="" placeholder="请选择分类">
+        </div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">价格</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" id="price" type="number" placeholder="请输入正整数">
+        </div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">排序</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" id="order" type="number" placeholder="请输入0-9">
+        </div>
+    </div>
+    <div class="weui-cells__tips">菜单的展示顺序 0最靠前 9最靠后</div>
+
+    <div class="weui-cells weui-cells_form">
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <div class="weui-uploader">
+                    <div class="weui-uploader__hd">
+                        <p class="weui-uploader__title">图片上传</p>
+                    </div>
+                    <div class="weui-uploader__bd">
+                        <ul class="weui-uploader__files" id="uploaderFiles">
+
+                        </ul>
+                        <div class="weui-uploader__input-box">
+                            <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*"
+                                   multiple=""
+                                   onchange="uploadFile(event)">
+                            <input type="hidden" id="urlInput"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="weui-btn-area">
+        <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">确定</a>
+    </div>
+    <script src="../lib/jquery-2.1.4.js"></script>
+    <script src="../lib/fastclick.js"></script>
+    <script>
+        $(function () {
+            FastClick.attach(document.body);
+        });
+    </script>
+    <script src="../js/jquery-weui.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            initData();
+        });
+
+        function initData() {
+            let prefix = config.config.urlPrefix;
+            $.ajax({
+                url: prefix + "/getCategoryListDown",
+                type: "post",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (data) {
+                    let itemList = data.data;
+                    $("#category").select({
+                        title: "选择分类",
+                        items: itemList
+                    });
+                }
+            })
+
+        }
+
+        function uploadFile(e) {
+            if ($("#urlInput").val() !== "") {
+                $.toptip('只能上传一张图片');
+                return;
+            }
+            let prefix = config.config.urlPrefix;
+            let imgFile = e.target.files[0];
+            let formData = new FormData();
+            formData.append('file', imgFile);
+            $.ajax({
+                url: prefix + "/uploadImage",
+                type: 'POST',
+                cache: false,
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    //data.data 图片
+                    let url = data.data;
+                    let uploaderFiles = document.querySelector("#uploaderFiles");
+                    let li = document.createElement("li");
+                    li.className = "weui-uploader__file";
+                    li.style = "background-image:url(" + url + ")";
+                    uploaderFiles.appendChild(li);
+                    $("#urlInput").val(url);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+
+        }
+
+        //提交
+        $("#showTooltips").click(function () {
+            const params = Object();
+            let menuName = $('#menuName').val();
+            let price = $('#price').val();
+            let category = $("#category").attr("data-values");
+            let categoryName = $("#category").val();
+            let order = $('#order').val();
+            let url = $('#urlInput').val();
+            params.menuName = menuName;
+            params.order = order;
+            params.category = category;
+            params.price = price;
+            params.url = url;
+            params.categoryName = categoryName;
+            const json = JSON.stringify(params);
+            let prefix = config.config.urlPrefix;
+
+            if (order > 9 || order < 0) {
+                $.toptip('排序:请输入数字0-9!');
+                return;
+            }
+            if ($.trim(menuName) === "") {
+                $.toptip('请输入菜单名称!');
+                return;
+            }
+            if ($.trim(category) === "") {
+                $.toptip('请上传图片!');
+                return;
+            }
+            if ($.trim(price) === "") {
+                $.toptip('请输入价格!');
+                return;
+            }
+            if ($.trim(category) === "") {
+                $.toptip('请选择分类!');
+                return;
+            }
+
+            $.ajax({
+                url: prefix + "/addMenuItem",
+                type: "post",
+                contentType: "application/json",
+                data: json,
+                dataType: "json",
+                success: function (data) {
+                    $.toast("提交成功", function () {
+                        window.location.href="/system";
+                    });
+
+                }
+            })
+
+            console.log(json);
+        });
+
+
+    </script>
+</body>
+<script src="/js/common.js"></script>
+</html>
